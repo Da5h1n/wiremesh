@@ -12,6 +12,8 @@ blocks.list = blocks
 blocks.grass = blocks.register{ name="grass", textures={ up=textures.grass_top, down=textures.dirt, north=textures.grass_side, south=textures.grass_side, west=textures.grass_side, east=textures.grass_side } }
 blocks.dirt  = blocks.register{ name="dirt",  textures={ up=textures.dirt, down=textures.dirt, north=textures.dirt, south=textures.dirt, west=textures.dirt, east=textures.dirt } }
 blocks.stone = blocks.register{ name="stone", textures={ up=textures.stone, down=textures.stone, north=textures.stone, south=textures.stone, west=textures.stone, east=textures.stone } }
+blocks.deepslate = blocks.register{ name="deepslate", textures={ up=textures.deepslate, down=textures.deepslate, north=textures.deepslate, south=textures.deepslate, west=textures.deepslate, east=textures.deepslate } }
+
 blocks.cobblestone = blocks.register{ name="cobblestone", textures={ up=textures.cobblestone, down=textures.cobblestone, north=textures.cobblestone, south=textures.cobblestone, west=textures.cobblestone, east=textures.cobblestone } }
 
 -- ORES
@@ -48,12 +50,7 @@ blocks.red_sand = blocks.register{
                west=textures.red_sand, east=textures.red_sand }
 }
 
-blocks.red_sandstone = blocks.register{
-    name="red_sandstone",
-    textures={ up=textures.red_sandstone, down=textures.red_sandstone,
-               north=textures.red_sandstone, south=textures.red_sandstone,
-               west=textures.red_sandstone, east=textures.red_sandstone }
-}
+blocks.red_sandstone = blocks.register{ name="red_sandstone", textures={ up=textures.red_sandstone, down=textures.red_sandstone, north=textures.red_sandstone, south=textures.red_sandstone, west=textures.red_sandstone, east=textures.red_sandstone }}
 
 
 -- TREES

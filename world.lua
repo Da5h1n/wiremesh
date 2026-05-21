@@ -207,48 +207,73 @@ function world.generateChunk(cx, cz)
     local cs = world.chunkSize
     local startX = cx * cs
     local startZ = cz * cs
+    local seed = perlin.getSeed()
 
     for x = startX, startX + cs - 1 do
         for z = startZ, startZ + cs - 1 do
-            -- FIXED: Sampling synchronized Multi-Noise parameters matching getBiomeAt
+
             local t = perlin.fbm2d(x * 0.002,  z * 0.002,  4, 0.5)
             local h = perlin.fbm2d(x * 0.002,  z * 0.002,  4, 0.5)
             local c = perlin.fbm2d(x * 0.005,  z * 0.005,  2, 0.5)
             local e = perlin.fbm2d(x * 0.01,   z * 0.01,   3, 0.4)
             local w = perlin.fbm2d(x * 0.002,  z * 0.002,  2, 0.5)
             
+            local pv = 1.0 - math.abs((3.0 * math.abs(w)) - 2.0)
+
             local baseH = perlin.fbm2d(x * 0.005, z * 0.005, 3, 0.4)
             
             local surfaceBiome = getBiome6D(t, h, c, e, w, 0.0)
             local surfaceY = surfaceBiome.heightMap(baseH)
 
             local effectiveMinY = math.max(world.BEDROCK_LEVEL, surfaceY - 15)
-            -- FIXED: Changed math.min to math.max to clear room for highlands/mountains
             local executionMaxY = math.max(world.SEA_LEVEL, surfaceY + 5)
 
-            for y = world.BEDROCK_LEVEL, effectiveMinY - 1 do
-                world.setBlock(x, y, z, blocks.stone)
-            end
+            local columnSeed = math.floor(x * 131071 + z * 524287 + seed)
 
-            for y = effectiveMinY, executionMaxY do
-                if y <= surfaceY then
+
+            for y = world.BEDROCK_LEVEL, executionMaxY do
+                math.randomseed(columnSeed + y * 31)
+
+                if y < world.BEDROCK_LEVEL + 5 then
+                    if y == world.BEDROCK_LEVEL then
+                        world.setBlock(x, y, z, blocks.bedrock)
+                    else
+                        world.setBlock(x, y, z, blocks.deepslate)
+                    end
+                
+
+                elseif y <= surfaceY then
                     local d = (surfaceY - y) / 128.0
                     local activeBiome = getBiome6D(t, h, c, e, w, d)
                     local blockType = activeBiome.surface(x, y, z, surfaceY)
 
-                    if not blockType and y < surfaceY - 4 then
-                        blockType = blocks.stone
+                    if (not blockType or blockType == blocks.stone) then
+                        
+                        if y <= 0 then
+                            blockType = blocks.deepslate
+                        elseif y > 0 and y <= 8 then
+
+                            local stoneChance = y / 8.0
+                            if math.random() < stoneChance then
+                                blockType = blocks.stone
+                            else
+                                blockType = blocks.deepslate
+                            end
+                        else
+                            blockType = blocks.stone
+                        end
                     end
+
                     if blockType then
                         world.setBlock(x, y, z, blockType)
                     end
+
                 elseif y <= world.SEA_LEVEL then
                     world.setBlock(x, y, z, blocks.water)
                 end
             end
 
-            -- FIXED: Use surfaceBiome mapping data for decorations instead of hardcoded coordinate zeroes
-            math.randomseed(x * 131071 + z * 524287 + perlin.getSeed())
+            math.randomseed(columnSeed)
             local roll = math.random()
             for i = 1, #surfaceBiome.decorations do
                 local deco = surfaceBiome.decorations[i]
@@ -263,6 +288,7 @@ function world.generateChunk(cx, cz)
     
     world.generatedChunks[chunkId] = true
 
+    -- Remesh surrounding chunk edges
     world.buildChunkMesh(cx, cz)
     world.buildChunkMesh(cx - 1, cz)
     world.buildChunkMesh(cx + 1, cz)
