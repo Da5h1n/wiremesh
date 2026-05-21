@@ -39,3 +39,34 @@ other biomes are hard to paste in. as they rely on exact temperature and humidid
 at this link: https://minecraft.wiki/w/World_generation
 
 look at the lists.
+
+
+need to add randimisation to :
+
+deepslate spawn
+bedrock spawn.
+
+bedrock spawns randomly but has a cap at -64
+BEDROCK HAS 5 LAYERS (THE LOWEST BEING COMPLETLEY SOLID) the 4 layers above have randomisation depending on seed.
+
+
+Deepslate makes up the majority of the solid blocks generated below Y=0 in the Overworld. Stone is gradually replaced from Y=8 to Y=0 until it is completely replaced by deepslate.
+
+
+in biome_definitions.lua We should allow ranges for the generation settings..
+
+
+
+
+
+Weirdness (also known as ridges) affects whether to generate a biome variant or not, as well as whether or not terrain generates shattered. If the weirdness value is greater than 0, the generated biome becomes weirder. For example, weirdness could cause a jungle biome to become a bamboo jungle instead, or could cause a taiga to generate with more shattered terrain akin to a windswept savanna. A biome and its variant often do not appear on the same bank of a river.
+
+The PV (peaks and valleys, aka. ridges folded) value is calculated through the formula 
+
+1−|(3|weirdness|)−2|
+
+If -1.0~-0.85: Valleys
+If -0.85~-0.2: Low
+If -0.2~0.2: Mid
+If 0.2~0.7: High
+If 0.7~1.0: Peaks

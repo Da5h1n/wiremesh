@@ -12,7 +12,7 @@ world.chunkSize = 16
 world.chunkHeight = 256
 world.generatedChunks = {}
 world.SEA_LEVEL = 62
-world.BEDROCK_LEVEL = -62
+world.BEDROCK_LEVEL = -64
 
 world.generationQueue = {}
 
