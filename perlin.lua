@@ -83,4 +83,53 @@ function perlin.fbm2d(x, y, octaves, persistence)
     return total / maxValue
 end
 
+function perlin.warpedNoise2d(x, z, scale, warpScale, warpStrength, octaves, persistence)
+
+    local warpX = perlin.fbm2d(
+        x * warpScale + 4000,
+        z * warpScale + 9000,
+        2,
+        0.5
+    ) * warpStrength
+
+    local warpZ = perlin.fbm2d(
+        x * warpScale - 7000,
+        z * warpScale + 2000,
+        2,
+        0.5
+    ) * warpStrength
+
+    return perlin.fbm2d(
+        (x + warpX) * scale,
+        (z + warpZ) * scale,
+        octaves,
+        persistence
+    )
+end
+
+function perlin.ridgedFBM2d(x, y, octaves, persistence)
+    local total = 0
+    local frequency = 1
+    local amplitude = 1
+    local maxValue = 0
+    
+    for i = 1, octaves do
+        -- Sample raw noise, take the absolute value, and invert it
+        local signal = perlin.noise2d(x * frequency, y * frequency)
+        signal = 1.0 - math.abs(signal)
+        
+        -- Square the signal to sharpen the peaks/ridges
+        signal = signal * signal
+        
+        total = total + signal * amplitude
+        maxValue = maxValue + amplitude
+        amplitude = amplitude * persistence
+        frequency = frequency * 2
+    end
+    
+    -- Normalize to [0, 1] then shift/scale to a standard [-1, 1] range
+    local normalized = total / maxValue
+    return normalized * 2.0 - 1.0
+end
+
 return perlin

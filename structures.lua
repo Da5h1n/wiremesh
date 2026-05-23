@@ -50,4 +50,61 @@ function structures.spawnDesertWell(x, y, z)
     world.setBlock(x + 1, y + 1, z + 1, blocks.stone)
 end
 
+-- 2. A growth asset: Dripstone Cave Stalactites and Stalagmites
+-- Generates vertical spikes depending on whether it has ceiling or floor clearance
+function structures.spawnDripstoneFeature(x, y, z)
+    local world = require("world")
+    
+    -- Vertical Raycast scanning downwards to check for open cavern space
+    local ceilingY = nil
+    local floorY = nil
+    
+    -- Look up to 15 blocks above and below to find a cavern air gap
+    for checkY = y + 10, y - 10, -1 do
+        local block = world.getBlock(x, checkY, z)
+        if block == blocks.stone or block == blocks.deepslate then
+            if not ceilingY and world.getBlock(x, checkY - 1, z) == nil then
+                ceilingY = checkY
+            end
+        end
+    end
+    
+    -- If we found a ceiling block, let's grow a Stalactite down!
+    if ceilingY then
+        local length = math.random(1, 4)
+        for i = 0, length - 1 do
+            local currentY = ceilingY - 1 - i
+            if world.getBlock(x, currentY, z) == nil then
+                -- In a rich engine, we place a custom block state. 
+                -- Lacking that, we stack cobblestone/stone markers to emulate the pillar shape
+                world.setBlock(x, currentY, z, blocks.cobblestone) 
+            else
+                break
+            end
+        end
+    end
+    
+    -- Find the floor directly below
+    for checkY = y - 1, y - 15, -1 do
+        local block = world.getBlock(x, checkY, z)
+        if block == blocks.stone or block == blocks.deepslate then
+            floorY = checkY
+            break
+        end
+    end
+    
+    -- Grow a Stalagmite up from the floor
+    if floorY and world.getBlock(x, floorY + 1, z) == nil then
+        local length = math.random(1, 3)
+        for i = 0, length - 1 do
+            local currentY = floorY + 1 + i
+            if world.getBlock(x, currentY, z) == nil then
+                world.setBlock(x, currentY, z, blocks.cobblestone)
+            else
+                break
+            end
+        end
+    end
+end
+
 return structures
