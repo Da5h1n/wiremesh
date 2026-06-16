@@ -25,6 +25,8 @@ local C = {
 
     -- Sandstone / Red Sand Variants (4)
     SAND1 = 57, SAND2 = 58, RSAND1 = 59, RSAND2 = 60,
+    PLANT1 = 61, PLANT2 = 62, FLOWER1 = 63,
+    MUD1 = 64, MUD2 = 65,
 }
 
 -- Initialize colors in CraftOS Mode 2 (Call this on startup!)
@@ -35,8 +37,9 @@ function textures.initPalette()
     term.setPaletteColor(C.D2, 0.25, 0.15, 0.05) -- Dark Dirt
     term.setPaletteColor(C.S1, 0.3, 0.3, 0.3)  -- Gray Stone
     term.setPaletteColor(C.S2, 0.5, 0.5, 0.5)  -- Light Gray
-    term.setPaletteColor(C.W1, 0.1, 0.3, 0.8)  -- Blue
-    term.setPaletteColor(C.W2, 0.2, 0.5, 0.9)  -- Light Blue
+    term.setPaletteColor(C.W1, 0.05, 0.35, 0.85) -- Deep Water Blue
+    term.setPaletteColor(C.W2, 0.15, 0.65, 1.00) -- Water Tint
+    term.setPaletteColor(C.W3, 0.65, 0.95, 1.00) -- Foam/Ice Highlight
     term.setPaletteColor(C.WD1, 0.5, 0.3, 0.1) -- Wood Base
     term.setPaletteColor(C.WD2, 0.6, 0.4, 0.2) -- Wood Highlight
     term.setPaletteColor(C.L1, 0.1, 0.6, 0.1)  -- Leaves
@@ -78,6 +81,11 @@ function textures.initPalette()
     term.setPaletteColor(C.SAND2, 0.95, 0.85, 0.65)
     term.setPaletteColor(C.RSAND1, 0.80, 0.40, 0.20)
     term.setPaletteColor(C.RSAND2, 0.90, 0.50, 0.30)
+    term.setPaletteColor(C.PLANT1, 0.25, 0.60, 0.20)
+    term.setPaletteColor(C.PLANT2, 0.15, 0.40, 0.12)
+    term.setPaletteColor(C.FLOWER1, 0.95, 0.75, 0.20)
+    term.setPaletteColor(C.MUD1, 0.25, 0.16, 0.10)
+    term.setPaletteColor(C.MUD2, 0.16, 0.10, 0.07)
 
 end
 
@@ -159,6 +167,39 @@ textures.leaves = {
     {C.L1, C.L2, C.L1, C.L2, C.L1, C.L2, C.L1, C.L2},
     {C.L2, C.L1, C.L2, C.L1, C.L2, C.L1, C.L2, C.L1},
     {C.L1, C.L2, C.L1, C.L2, C.L1, C.L2, C.L1, C.L2},
+}
+
+textures.mud = {
+    {C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2},
+    {C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD1},
+    {C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1},
+    {C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2},
+    {C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1},
+    {C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD1},
+    {C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2},
+    {C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1, C.MUD1, C.MUD2, C.MUD1},
+}
+
+textures.short_grass = {
+    {C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2},
+    {C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1},
+    {C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1},
+    {C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1},
+    {C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2},
+    {C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1},
+    {C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1},
+    {C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT1, C.PLANT2, C.PLANT1},
+}
+
+textures.flower = {
+    {C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1},
+    {C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1},
+    {C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2},
+    {C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1},
+    {C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1},
+    {C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1, C.FLOWER1, C.PLANT1},
+    {C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2},
+    {C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1, C.PLANT2, C.PLANT1},
 }
 
 textures.sand = {

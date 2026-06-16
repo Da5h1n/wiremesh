@@ -620,10 +620,49 @@ biomes.list = {
     }
 }
 
+local decorationByBiome = {
+    PLAINS = { { rate = 0.04, type = "grass" }, { rate = 0.01, type = "flower" } },
+    SUNFLOWER_PLAINS = { { rate = 0.05, type = "grass" }, { rate = 0.04, type = "flower" } },
+    MEADOW = { { rate = 0.08, type = "grass" }, { rate = 0.06, type = "flower" } },
+    FLOWER_FOREST = { { rate = 0.03, type = "tree" }, { rate = 0.08, type = "flower" } },
+    FOREST = { { rate = 0.05, type = "tree" }, { rate = 0.03, type = "grass" } },
+    BIRCH_FOREST = { { rate = 0.05, type = "tall_birch_tree" }, { rate = 0.02, type = "grass" } },
+    DARK_FOREST = { { rate = 0.08, type = "dark_oak_tree" } },
+    TAIGA = { { rate = 0.06, type = "tree" }, { rate = 0.02, type = "grass" } },
+    OLD_GROWTH_PINE_TAIGA = { { rate = 0.08, type = "tree" } },
+    OLD_GROWTH_SPRUCE_TAIGA = { { rate = 0.08, type = "tree" } },
+    SWAMP = { { rate = 0.04, type = "swamp_tree" }, { rate = 0.03, type = "grass" } },
+    MANGROVE_SWAMP = { { rate = 0.05, type = "mangrove_tree" } },
+    JUNGLE = { { rate = 0.09, type = "tree" }, { rate = 0.04, type = "grass" } },
+    SPARSE_JUNGLE = { { rate = 0.03, type = "tree" }, { rate = 0.03, type = "grass" } },
+    BAMBOO_JUNGLE = { { rate = 0.12, type = "bamboo" }, { rate = 0.03, type = "tree" } },
+    SAVANNA = { { rate = 0.02, type = "acacia_tree" }, { rate = 0.04, type = "grass" } },
+    SAVANNA_PLATEAU = { { rate = 0.015, type = "acacia_tree" }, { rate = 0.03, type = "grass" } },
+    WINDSWEPT_SAVANNA = { { rate = 0.01, type = "acacia_tree" }, { rate = 0.02, type = "grass" } },
+    DESERT = { { rate = 0.012, type = "cactus" }, { rate = 0.01, type = "dead_bush" }, { rate = 0.0004, type = "desert_well" } },
+    BADLANDS = { { rate = 0.01, type = "dead_bush" } },
+    ERODED_BADLANDS = { { rate = 0.008, type = "dead_bush" } },
+    WOODED_BADLANDS = { { rate = 0.015, type = "tree" }, { rate = 0.01, type = "dead_bush" } },
+    LUSH_CAVES = { { rate = 0.03, type = "grass" }, { rate = 0.015, type = "flower" } },
+}
 
+local tintByBiome = {
+    SWAMP = { grass = "swamp", leaves = "swamp", water = "swamp" },
+    MANGROVE_SWAMP = { grass = "swamp", leaves = "swamp", water = "swamp" },
+    JUNGLE = { grass = "jungle", leaves = "jungle", water = "warm" },
+    BAMBOO_JUNGLE = { grass = "jungle", leaves = "jungle", water = "warm" },
+    SAVANNA = { grass = "dry", leaves = "dry" },
+    DESERT = { grass = "dry", leaves = "dry", water = "warm" },
+    BADLANDS = { grass = "dry", leaves = "dry", water = "warm" },
+    FROZEN_OCEAN = { water = "frozen" },
+    DEEP_FROZEN_OCEAN = { water = "frozen" },
+}
 
-
-
-
+for _, biome in ipairs(biomes.list) do
+    if decorationByBiome[biome.name] then
+        biome.decorations = decorationByBiome[biome.name]
+    end
+    biome.tint = tintByBiome[biome.name] or biome.tint
+end
 
 return biomes

@@ -31,7 +31,27 @@ end
 function structures.spawnDeadBush(x, y, z)
     local world = require("world")
 
-    world.setBlock(x, y, z, nil)
+    world.setBlock(x, y, z, blocks.short_grass)
+end
+
+function structures.spawnGrass(x, y, z)
+    local world = require("world")
+
+    world.setBlock(x, y, z, blocks.short_grass)
+end
+
+function structures.spawnFlower(x, y, z)
+    local world = require("world")
+
+    world.setBlock(x, y, z, blocks.flower)
+end
+
+function structures.spawnBamboo(x, y, z)
+    local world = require("world")
+
+    for i = 0, math.random(2, 6) do
+        world.setBlock(x, y + i, z, blocks.bamboo)
+    end
 end
 
 function structures.spawnDesertWell(x, y, z)

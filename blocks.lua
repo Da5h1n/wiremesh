@@ -2,6 +2,11 @@ local textures = require("textures")
 local blocks = {}
 
 function blocks.register(def)
+    if def.model == nil then def.model = "cube" end
+    if def.opaque == nil then def.opaque = true end
+    if def.renderLayer == nil then
+        def.renderLayer = def.opaque and "opaque" or "transparent"
+    end
     blocks[#blocks+1] = def
     return #blocks
 end
@@ -58,10 +63,16 @@ blocks.wood   = blocks.register{ name="wood",   textures={ up=textures.wood, dow
 blocks.leaves = blocks.register{ name="leaves", textures={ up=textures.leaves, down=textures.leaves, north=textures.leaves, south=textures.leaves, west=textures.leaves, east=textures.leaves } }
 
 -- WATER
-blocks.water = blocks.register{ name="water", textures={ up=textures.water, down=textures.water, north=textures.water, south=textures.water, west=textures.water, east=textures.water } }
+blocks.water = blocks.register{ name="water", opaque=false, renderLayer="transparent", textures={ up=textures.water, down=textures.water, north=textures.water, south=textures.water, west=textures.water, east=textures.water } }
 
 -- MARKERS
 blocks.marker_pyramid = blocks.register{ name="marker_pyramid", textures={ up=textures.marker_orange, down=textures.marker_orange, north=textures.marker_orange, south=textures.marker_orange, west=textures.marker_orange, east=textures.marker_orange } }
 blocks.marker_dungeon = blocks.register{ name="marker_dungeon", textures={ up=textures.marker_magenta, down=textures.marker_magenta, north=textures.marker_magenta, south=textures.marker_magenta, west=textures.marker_magenta, east=textures.marker_magenta } }
+
+-- NEW NATURAL / DECORATION BLOCKS
+blocks.mud = blocks.register{ name="mud", textures={ up=textures.mud, down=textures.mud, north=textures.mud, south=textures.mud, west=textures.mud, east=textures.mud } }
+blocks.short_grass = blocks.register{ name="short_grass", opaque=false, renderLayer="transparent", textures={ up=textures.short_grass, down=textures.short_grass, north=textures.short_grass, south=textures.short_grass, west=textures.short_grass, east=textures.short_grass } }
+blocks.flower = blocks.register{ name="flower", opaque=false, renderLayer="transparent", textures={ up=textures.flower, down=textures.flower, north=textures.flower, south=textures.flower, west=textures.flower, east=textures.flower } }
+blocks.bamboo = blocks.register{ name="bamboo", opaque=false, renderLayer="transparent", textures={ up=textures.short_grass, down=textures.short_grass, north=textures.short_grass, south=textures.short_grass, west=textures.short_grass, east=textures.short_grass } }
 
 return blocks
